@@ -1,0 +1,48 @@
+++ pos_get_variable moongen_dir --from-global
++ MOONGEN_DIR=/root/moongen
+++ pos_get_variable pkt_rate --from-loop
++ PKT_RATE=210000
+++ pos_get_variable pkt_sz --from-loop
++ PKT_SZ=64
+++ pos_get_variable --from-global loadgen_ingress_dev
++ LOADGEN_INGRESS_DEV=1
+++ pos_get_variable --from-global loadgen_egress_dev
++ LOADGEN_EGRESS_DEV=0
+++ pos_get_variable --from-global loadgen_ingress_if
++ LOADGEN_INGRESS_IF=ens4
+++ pos_get_variable --from-global loadgen_egress_if
++ LOADGEN_EGRESS_IF=ens5
+++ pos_get_variable --from-global loadgen_ingress_mac
++ LOADGEN_INGRESS_MAC=52:54:00:78:0a:23
+++ pos_get_variable --from-global loadgen_egress_mac
++ LOADGEN_EGRESS_MAC=52:54:00:78:0a:20
+++ pos_get_variable --from-global loadgen_ingress_ip
++ LOADGEN_INGRESS_IP=10.0.0.20
+++ pos_get_variable --from-global loadgen_egress_ip
++ LOADGEN_EGRESS_IP=10.0.1.23
+++ pos_get_variable --from-global loadgen_enable_ip_sw_chksum_calc
++ LOADGEN_ENABLE_IP_SW_CHKSUM_CALC=1
+++ pos_get_variable --from-global loadgen_enable_offload
++ LOADGEN_ENABLE_OFFLOAD=0
+++ pos_get_variable warm_up
++ LOADGEN_WARM_UP=0
+++ pos_get_variable --from-global dut_ingress_mac
++ DUT_INGRESS_MAC=52:54:00:80:0a:22
+++ pos_get_variable --from-global dut_egress_mac
++ DUT_EGRESS_MAC=52:54:00:80:0a:21
+++ pos_get_variable --from-global dut_ingress_ip
++ DUT_INGRESS_IP=10.0.1.22
+++ pos_get_variable --from-global dut_egress_ip
++ DUT_EGRESS_IP=10.0.0.21
++ PKTS_TOTAL=6300000
++ echo 'send packets with size: 64 and rate: 210000.'
++ pos_sync
++ pos_run --loop loadgen -- bash -c '/root/moongen/build/MoonGen /root/moongen/examples/soft-gen.lua --src-mac 52:54:00:78:0a:20 --dst-mac 52:54:00:80:0a:22 --src-ip 10.0.1.23 --dst-ip 10.0.0.20 --fix-packetrate 210000 --size 64 --packets 6300000 --chksum-offload 0 --ip-chksum 1 --warm-up 0 0 1 > /root/throughput.log'
++ sleep 50
++ pos_kill --loop loadgen
+2023-01-12 06:13:22,652 WARNING  No running process found
++ sleep 100
++ pos_upload --loop /root/throughput.log
++ sleep 5
++ pos_sync
++ echo 'experiment successful'

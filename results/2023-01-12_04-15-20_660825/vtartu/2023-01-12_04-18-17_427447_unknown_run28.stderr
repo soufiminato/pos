@@ -1,0 +1,9 @@
+++ pos_get_variable pkt_rate --from-loop
++ PKT_RATE=290000
+++ pos_get_variable pkt_sz --from-loop
++ PKT_SZ=64
++ echo 'forward packets with size: 64 and rate: 290000.'
++ pos_sync
++ sleep 1
++ pos_sync
++ echo 'experiment successful'
